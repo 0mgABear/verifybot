@@ -1,12 +1,12 @@
 # Verify Bot (NUS)
 
-##Project Background:
+## Project Background:
 
 ---
 
 ## Introduction
 
-I am the creator of the Telegram Group [NUS Lost and Found ext](https://t.me/NUSlostandfound). This was created in 2016 when I lost a valuable item during one of my classes and could not find it.
+I am the creator of the Telegram Group [NUS Lost and Found](https://t.me/NUSlostandfound). This was created in 2016 when I lost a valuable item during one of my classes and could not find it.
 
 I then thought that there was an inherent gap in the community where people help one another look out for lost items around school. Since inception, the group has grown to 12,000+ members strong (as of March 2026), and I am greatly heartened to know that this group is helping and benefitting so many people.
 
@@ -31,6 +31,7 @@ Some of these include:
 5. Substitution of characters in forbidden keywords
 
 An example scam message is as follows:
+
 `Givi ng away my 15-inch MacBook Air (M4) — bareIy used and stiII in exceIIent condition.`
 
 ## Challenges and Considerations:
@@ -80,16 +81,17 @@ Since only NUS students and staff have access to NUS email inboxes, this guarant
 
 ### Why Serverless?
 
-## The bot runs entirely on Cloudflare's global edge network with no server to manage or maintain. It costs nothing beyond a domain name (~$10/year), scales automatically to handle any number of simultaneous verifications, and has no single point of failure.
+The bot runs entirely on Cloudflare's global edge network with no server to manage or maintain. It costs nothing beyond a domain name (~$10/year), scales automatically to handle any number of simultaneous verifications, and has no single point of failure.
 
 ## Credits:
 
-The Original Idea came from the creator of [this bot](https://t.me/marketplace_automod_bot), and he goes by the name of Billy Cao. [Telegram Handle](https://t.me/aliencaocao)
+The Original Idea came from the creator of [this bot](https://t.me/marketplace_automod_bot), and he goes by the name of Billy Cao. [Telegram Contact](https://t.me/aliencaocao)
 
 This idea whilst not original, has been open-sourced. I have not adopted any of his work and/or code in any way or form.
 
 I strongly believe that we all play a part in prevention of spam and especially scams, and hence I have decided to open-source this project. I have also personally covered the domain costs.
 
-For more of my work, please do check out https://linktr.ee/commonertech. Please also consider supporting me (for domain costs).
+For more of my work, please do check out https://linktr.ee/commonertech.
+Please also consider supporting me (for domain costs).
 
 This is proudly a @commonertech product.
