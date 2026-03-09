@@ -13,3 +13,8 @@ CREATE TABLE IF NOT EXISTS pending_otps (
     otp TEXT NOT NULL,
     expires_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS group_state (
+    chat_id INTEGER PRIMARY KEY,
+    last_welcome_message_id INTEGER
+);

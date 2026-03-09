@@ -71,11 +71,17 @@ The bot is built on a fully serverless stack with zero infrastructure to maintai
 ### How It Works
 
 1. A new member joins the group → bot immediately restricts them to read-only mode
-2. Member receives a prompt to DM the bot and run `/verify`
-3. Member submits their NUS email address (`@u.nus.edu.sg` or `@nus.edu.sg`)
+2. Bot attempts to DM the member with verification instructions. If the member has never interacted with the bot before (which is the case for most new members), Telegram does not allow bots to initiate conversations — so the bot falls back to posting a silent notification in the group instead, prompting them to DM the bot directly
+3. Member DMs the bot and submits their NUS email address (`@u.nus.edu` or `@nus.edu.sg`)
 4. Bot generates a cryptographically secure 6-digit OTP and emails it to their NUS inbox
 5. Member submits the OTP back to the bot
 6. Bot verifies the code, permanently records the member as verified, and lifts their posting restrictions
+
+Additional quality-of-life updates:
+
+- The group notification is sent silently (no ping/notification sound) to avoid disrupting ongoing conversations
+- If multiple new members join in quick succession, the bot automatically deletes the previous welcome message before posting a new one, so there is always at most one welcome message visible at any time
+- The welcome message is automatically deleted after 15 seconds to keep the chat clean
 
 Since only NUS students and staff have access to NUS email inboxes, this guarantees that every member who can post in the group is a verified member of the NUS community — making it significantly harder for external bad actors to infiltrate and spam the group.
 
