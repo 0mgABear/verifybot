@@ -1,7 +1,5 @@
 # Verify Bot (NUS)
 
-## Project Background:
-
 ## Introduction
 
 I am the creator of the Telegram Group [NUS Lost and Found](https://t.me/NUSlostandfound). This was created in 2016 when I lost a valuable item during one of my classes and could not find it.
