@@ -4,10 +4,9 @@ import { Resend } from 'resend';
 export interface Env {
 	TELEGRAM_BOT_TOKEN: string;
 	RESEND_API_KEY: string;
+	ALLOWED_DOMAINS?: string;
 	verifybot_db: D1Database;
 }
-
-const ALLOWED_DOMAINS = ['u.nus.edu', 'nus.edu.sg'];
 
 //Cloudflare entry point
 export default {
@@ -17,6 +16,7 @@ export default {
 		}
 		const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
 		const resend = new Resend(env.RESEND_API_KEY);
+		const ALLOWED_DOMAINS = (env.ALLOWED_DOMAINS ?? 'u.nus.edu,nus.edu.sg').split(',');
 
 		//NEW MEMBER JOIN
 		bot.on('chat_member', async (ctx) => {
@@ -68,7 +68,6 @@ export default {
 				const sentMessage = await ctx.api.sendMessage(
 					chatId,
 					`👋 Welcome ${member.user.first_name}! Please DM me to verify your NUS email before you can post.`,
-					{ disable_notification: true },
 				);
 
 				await env.verifybot_db

@@ -77,7 +77,7 @@ The bot is built on a fully serverless stack with zero infrastructure to maintai
 5. Member submits the OTP back to the bot
 6. Bot verifies the code, permanently records the member as verified, and lifts their posting restrictions
 
-Additional quality-of-life updates:
+Additional quality-of-life behaviours:
 
 - The group notification is sent silently (no ping/notification sound) to avoid disrupting ongoing conversations
 - If multiple new members join in quick succession, the bot automatically deletes the previous welcome message before posting a new one, so there is always at most one welcome message visible at any time
@@ -88,6 +88,79 @@ Since only NUS students and staff have access to NUS email inboxes, this guarant
 ### Why Serverless?
 
 The bot runs entirely on Cloudflare's global edge network with no server to manage or maintain. It costs nothing beyond a domain name (~$10/year), scales automatically to handle any number of simultaneous verifications, and has no single point of failure.
+
+## Self-Hosting
+
+Want to deploy your own instance for your NUS Telegram group? Here's how:
+
+**Prerequisites**
+
+- Node.js 18+
+- A Cloudflare account (free)
+- A Resend account (free)
+- A domain name for sending emails (~$10/year)
+
+**Setup**
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/0mgABear/verifybot
+cd verifybot
+npm install
+```
+
+2. Create a Telegram bot via [@BotFather](https://t.me/BotFather) and copy the token
+
+3. Create a Cloudflare D1 database
+
+```bash
+npx wrangler d1 create verifybot-db
+```
+
+Copy the database ID into `wrangler.jsonc`
+
+4. Apply the database schema
+
+```bash
+npx wrangler d1 execute verifybot-db --remote --file=schema.sql
+```
+
+5. Add your secrets
+
+```bash
+npx wrangler secret put TELEGRAM_BOT_TOKEN
+npx wrangler secret put RESEND_API_KEY
+```
+
+6. Deploy
+
+```bash
+npx wrangler deploy
+```
+
+7. Register your webhook (replace `YOUR_BOT_TOKEN` and `YOUR_WORKER_URL`)
+
+```bash
+curl -X POST "https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "YOUR_WORKER_URL", "allowed_updates": ["message", "chat_member"]}'
+```
+
+8. Add the bot to your Telegram group and grant it admin rights with **Restrict Members** and **Send Messages** permissions
+
+**Using this for a non-NUS organisation?**
+
+This bot is not NUS-specific. To use it for any organisation with institutional email addresses, set the `ALLOWED_DOMAINS` environment variable to a comma-separated list of your allowed domains:
+
+```bash
+npx wrangler secret put ALLOWED_DOMAINS
+# Enter: yourdomain.com,anotherdomain.com
+```
+
+The bot will automatically accept emails from those domains only. If `ALLOWED_DOMAINS` is not set, it defaults to `u.nus.edu` and `nus.edu.sg`.
+
+If you run into any issues, feel free to open an issue on GitHub or reach out directly — happy to help.
 
 ## Credits:
 
