@@ -149,6 +149,23 @@ curl -X POST "https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook" \
 
 8. Add the bot to your Telegram group and grant it admin rights with **Restrict Members** and **Send Messages** permissions
 
+Note: By default, verified members are granted permission to send text messages, photos, and videos. If your group has different default permissions, update the restrictChatMember call in src/index.ts after the OTP verification to match your group's settings before deploying.
+
+```
+can_send_messages: true,       // text messages
+can_send_photos: true,         // images
+can_send_videos: true,         // videos
+can_send_documents: true,      // files
+can_send_audios: true,         // music
+can_send_voice_notes: true,    // voice messages
+can_send_video_notes: true,    // video messages
+can_send_other_messages: true, // stickers, GIFs
+can_send_polls: true,          // polls
+can_add_web_page_previews: true // link previews
+```
+
+Set any permission to false to restrict that content type for verified members.
+
 **Using this for a non-NUS organisation?**
 
 This bot is not NUS-specific. To use it for any organisation with institutional email addresses, set the `ALLOWED_DOMAINS` environment variable to a comma-separated list of your allowed domains:
