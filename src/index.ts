@@ -170,7 +170,7 @@ export default {
 				await ctx.api.restrictChatMember(pending.group_chat_id as number, ctx.from.id, {
 					can_send_messages: true,
 					can_send_photos: true,
-					can_send_videos: true,
+					can_invite_users: true,
 				});
 
 				await ctx.reply('✅ Email verified! You can now post in the group. Welcome!');
