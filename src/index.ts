@@ -25,10 +25,14 @@ export default {
 			if (member.user.is_bot) return;
 
 			const oldStatus = ctx.chatMember.old_chat_member.status;
+
 			if (oldStatus !== 'left' && oldStatus !== 'kicked' && oldStatus !== 'restricted') return;
 
 			const userId = member.user.id;
 			const chatId = ctx.chat.id;
+
+			const botInfo = await ctx.api.getMe();
+			if (ctx.chatMember.from.id !== botInfo.id && ctx.chatMember.from.id !== userId) return;
 
 			const existingUser = await env.verifybot_db
 				.prepare('SELECT * FROM verified_users WHERE user_id = ? AND chat_id=?')
