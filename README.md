@@ -71,13 +71,14 @@ The bot is built on a fully serverless stack with zero infrastructure to maintai
 3. Member DMs the bot and submits their NUS email address (`@u.nus.edu` or `@nus.edu.sg`)
 4. Bot generates a cryptographically secure 6-digit OTP and emails it to their NUS inbox
 5. Member submits the OTP back to the bot
-6. Bot verifies the code, permanently records the member as verified, and lifts their posting restrictions
+6. Bot verifies the code, permanently records the member as verified, and lifts their posting restrictions — restoring exactly the group's default permissions as configured by the group admin
 
 Additional quality-of-life behaviours:
 
 - The group notification is sent silently (no ping/notification sound) to avoid disrupting ongoing conversations
 - If multiple new members join in quick succession, the bot automatically deletes the previous welcome message before posting a new one, so there is always at most one welcome message visible at any time
 - The welcome message is automatically deleted after 15 seconds to keep the chat clean
+- New: Once a member is verified in any group on the same bot instance, they are automatically verified in all other groups on that instance — no need to re-verify. This is intentional for NUS groups sharing the same hosted instance, since all groups require the same NUS email verification. Self-hosters can revert this behaviour by adding AND chat_id = ? back to the verified_users query in src/index.ts.
 
 Since only NUS students and staff have access to NUS email inboxes, this guarantees that every member who can post in the group is a verified member of the NUS community — making it significantly harder for external bad actors to infiltrate and spam the group.
 
@@ -145,7 +146,9 @@ curl -X POST "https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook" \
 
 8. Add the bot to your Telegram group and grant it admin rights with **Restrict Members** and **Send Messages** permissions
 
-Note: By default, verified members are granted permission to send text messages, photos, and videos. If your group has different default permissions, update the restrictChatMember call in src/index.ts after the OTP verification to match your group's settings before deploying.
+Note on post-verification permissions: After a member verifies, the bot automatically restores your group's default permissions as configured in Telegram's group settings — no hardcoding required. Simply configure your group's permissions in Telegram as you normally would, and verified members will inherit exactly those settings.
+
+However, if you wish for more granular control over post-verification settings, you can configure the following available permissions:
 
 ```
 can_send_messages: true,       // text messages
