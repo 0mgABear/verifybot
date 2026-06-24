@@ -69,6 +69,7 @@ export default {
 				const sentMessage = await ctx.api.sendMessage(
 					chatId,
 					`👋 Welcome ${member.user.first_name}! Please DM me to verify your NUS email before you can post.`,
+					{ disable_notification: true },
 				);
 
 				await env.verifybot_db
