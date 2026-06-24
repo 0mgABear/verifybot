@@ -34,10 +34,7 @@ export default {
 			const botInfo = await ctx.api.getMe();
 			if (ctx.chatMember.from.id !== botInfo.id && ctx.chatMember.from.id !== userId) return;
 
-			const existingUser = await env.verifybot_db
-				.prepare('SELECT * FROM verified_users WHERE user_id = ? AND chat_id=?')
-				.bind(userId, chatId)
-				.first();
+			const existingUser = await env.verifybot_db.prepare('SELECT * FROM verified_users WHERE user_id = ?').bind(userId).first();
 
 			if (existingUser) return;
 
@@ -171,10 +168,9 @@ export default {
 
 				await env.verifybot_db.prepare('DELETE FROM pending_otps WHERE user_id = ?').bind(ctx.from.id).run();
 
+				const chat = await ctx.api.getChat(pending.group_chat_id as number);
 				await ctx.api.restrictChatMember(pending.group_chat_id as number, ctx.from.id, {
-					can_send_messages: true,
-					can_send_photos: true,
-					can_invite_users: true,
+					...chat.permissions,
 				});
 
 				await ctx.reply('✅ Email verified! You can now post in the group. Welcome!');
